@@ -1,10 +1,7 @@
 <?php
 
 
-namespace App\Application\Repositories;
-
-
-use Client;
+namespace Client;
 
 class ExampleHttpRepository
 {
@@ -22,7 +19,7 @@ class ExampleHttpRepository
         $this->client = $client;
     }
 
-    public function get()
+    public function getList()
     {
 
     }
