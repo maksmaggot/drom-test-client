@@ -1,0 +1,16 @@
+{
+    "name": "maggotik/drom-test-client",
+    "description": "drom test client for example.com api",
+    "type": "library",
+    "authors": [
+        {
+            "name": "maksmaggot",
+            "email": "maksmaggot@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "guzzlehttp/guzzle": "^6.5",
+        "phpunit/phpunit": "^9.1"
+    }
+}
