@@ -23,11 +23,11 @@ class Comment
 
     /**
      * Comment constructor.
-     * @param $id
-     * @param $name
-     * @param $text
+     * @param int $id
+     * @param string $name
+     * @param string $text
      */
-    public function __construct($id, $name, $text)
+    public function __construct(int $id, string $name, string $text)
     {
         $this->name = $name;
         $this->text = $text;
