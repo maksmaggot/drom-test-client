@@ -4,6 +4,8 @@
 namespace Client;
 
 
+use GuzzleHttp\ClientInterface;
+
 class ExampleClient
 {
     /**
@@ -12,12 +14,17 @@ class ExampleClient
     private $repository;
 
     /**
-     * ExampleClient constructor.
-     * @param CommentsHttpRepository $repository
+     * @var DIContainer
      */
-    public function __construct(CommentsHttpRepository $repository)
+    private $container;
+
+    /**
+     * ExampleClient constructor.
+     */
+    public function __construct()
     {
-        $this->repository = $repository;
+        $this->container = DIContainer::getContainer();
+        $this->repository = $this->container->get(CommentsHttpRepository::class);
     }
 
     /**

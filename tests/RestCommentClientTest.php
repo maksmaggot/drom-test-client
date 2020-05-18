@@ -28,9 +28,6 @@ class RestCommentClientTest extends TestCase
         $this->assertEquals($expected, $restClient->getList(), $message);
     }
 
-    /**
-     * @return array[]
-     */
     public function getListDataProvider()
     {
         return [
@@ -162,7 +159,7 @@ class RestCommentClientTest extends TestCase
         $restClient = new RestCommentClient(new Client(['handler' => $handlerStack]));
 
         $this->expectException(\Exception::class);
-        $restClient->Create('exept', 'sed');
+        $restClient->create('exept', 'sed');
     }
 
 }
