@@ -27,38 +27,33 @@ class CommentsHttpRepository
     public function getList(): array
     {
         try {
-            $this->client->getList();
+            return $this->client->getList();
         } catch (\Exception $e) {
             throw new \Exception("CommentClient Error: " . $e->getMessage(), 0, $e);
         }
     }
 
     /**
-     * @param $name
-     * @param $text
-     * @return Comment
+     * @param Comment $comment
      * @throws \Exception
      */
-    public function add($name, $text): Comment
+    public function add(Comment $comment): void
     {
         try {
-            return $this->client->create($name, $text);
+            $this->client->create($comment->name, $comment->text);
         } catch (\Exception $e) {
             throw new \Exception("CommentClient Error: " . $e->getMessage(), 0, $e);
         }
     }
 
     /**
-     * @param $id
-     * @param $name
-     * @param $text
-     * @return Comment
+     * @param Comment $comment
      * @throws \Exception
      */
-    public function update($id, $name, $text): Comment
+    public function update(Comment $comment): void
     {
         try {
-            return $this->client->update($id, $name, $text);
+            $this->client->update($comment->id, $comment->name, $comment->text);
         } catch (\Exception $e) {
             throw new \Exception("CommentClient Error: " . $e->getMessage(), 0, $e);
         }

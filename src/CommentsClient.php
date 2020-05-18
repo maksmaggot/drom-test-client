@@ -14,15 +14,15 @@ interface CommentsClient
     /**
      * @param string $name
      * @param string $text
-     * @return Comment
+     * @throws \Exception
      */
-    public function create(string $name, string $text): Comment;
+    public function create(string $name, string $text): void;
 
     /**
      * @param int $id
      * @param string $name
      * @param string $text
-     * @return Comment
+     * @throws \Exception
      */
-    public function update(int $id, string $name, string $text): Comment;
+    public function update(int $id, string $name, string $text): void;
 }

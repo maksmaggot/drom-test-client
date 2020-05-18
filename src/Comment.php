@@ -7,7 +7,7 @@ namespace Client;
 class Comment
 {
     /**
-     * @var $id int
+     * @var $id ?int
      */
     public $id;
 
@@ -27,7 +27,7 @@ class Comment
      * @param string $name
      * @param string $text
      */
-    public function __construct(int $id, string $name, string $text)
+    public function __construct(?int $id, string $name, string $text)
     {
         $this->name = $name;
         $this->text = $text;

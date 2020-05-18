@@ -32,23 +32,21 @@ class ExampleClient
     /**
      * @param string $name
      * @param string $text
-     * @return Comment
      * @throws \Exception
      */
-    public function createComment(string $name, string $text): Comment
+    public function createComment(string $name, string $text): void
     {
-        $this->repository->add($name, $text);
+        $this->repository->add(new Comment(null, $name, $text));
     }
 
     /**
      * @param int $id
      * @param string $name
      * @param string $text
-     * @return Comment
      * @throws \Exception
      */
-    public function updateComment(int $id, string $name, string $text): Comment
+    public function updateComment(int $id, string $name, string $text): void
     {
-        $this->repository->update($id, $name, $text);
+        $this->repository->update(new Comment($id, $name, $text));
     }
 }
