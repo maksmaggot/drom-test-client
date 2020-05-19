@@ -17,10 +17,14 @@ text - тип string.
 Сервер example.com писать не надо! Только библиотеку для работы с ним.
 
 ___
+Для запуска тестов: 
+
+установить зависимости: composer install
+запустить тесты: make run-tests
+___
 Для установки в проект:
 
 composer require maksmaggot/drom-test-client
-___
 
 Пример использования: 
 ```php
