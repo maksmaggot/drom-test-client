@@ -108,7 +108,6 @@ class ExampleClientTest extends TestCase
         return [
             [
                 new Response(201),
-                'POST',
                 json_encode(['name' => 'Max', 'text' => 'textnewtext']),
                 ['Max', 'textnewtext'],
             ],
@@ -155,7 +154,6 @@ class ExampleClientTest extends TestCase
         return [
             [
                 new Response(200),
-                'PUT',
                 json_encode(['name' => "Micha", 'text' => "textnew"]),
                 [1, 'Micha', 'textnew']
             ],

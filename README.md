@@ -17,6 +17,10 @@ text - тип string.
 Сервер example.com писать не надо! Только библиотеку для работы с ним.
 
 ___
+Для запуска тестов используется makefile: 
+
+make run-tests
+___
 Для установки в проект:
 
 composer require maksmaggot/drom-test-client
