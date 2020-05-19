@@ -15,3 +15,32 @@ text - тип string.
 
 Написать phpunit тесты, на которых будет проверяться работоспособность клиента.
 Сервер example.com писать не надо! Только библиотеку для работы с ним.
+
+___
+Для установки в проект:
+
+composer require maksmaggot/drom-test-client
+
+Пример использования: 
+```php
+
+<?php
+
+require 'vendor/autoload.php';
+$client = new Client\ExampleClient();
+
+try {
+// Получаем список комментариев
+    $comments = $client->getComments();
+
+// создаём комментарий
+    $client->createComment('Vasilii', 'Yeap!');
+
+// обновляем комментарий
+    $client->updateComment('5', 'Iaksim', 'Hello there!');
+
+} catch (Exception $e) {
+    new \RuntimeException($e->getMessage());
+}
+
+```
