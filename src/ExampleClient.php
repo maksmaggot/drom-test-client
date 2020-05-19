@@ -14,17 +14,11 @@ class ExampleClient
     private $repository;
 
     /**
-     * @var DIContainer
-     */
-    private $container;
-
-    /**
      * ExampleClient constructor.
      */
     public function __construct()
     {
-        $this->container = DIContainer::getContainer();
-        $this->repository = $this->container->get(CommentsHttpRepository::class);
+        $this->repository = DIContainer::getContainer()->get(CommentsHttpRepository::class);
     }
 
     /**

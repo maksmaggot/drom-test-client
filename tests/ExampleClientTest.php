@@ -6,7 +6,6 @@ namespace Tests;
 use Client\Comment;
 use Client\DIContainer;
 use Client\ExampleClient;
-use Client\RestCommentClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Handler\MockHandler;
@@ -18,16 +17,6 @@ use PHPUnit\Framework\TestCase;
 class ExampleClientTest extends TestCase
 {
     /**
-     * @var DIContainer
-     */
-    private $container;
-
-    protected function setUp(): void
-    {
-        $this->container = DIContainer::getContainer();
-    }
-
-    /**
      * @dataProvider getCommentsProvider
      * @param Response $response
      * @param array $expected
@@ -37,7 +26,7 @@ class ExampleClientTest extends TestCase
     public function testGetComments(Response $response, array $expected, string $message)
     {
         $mock = new MockHandler([$response]);
-        $this->container->set(ClientInterface::class, function () use ($mock) {
+        DIContainer::getContainer()->set(ClientInterface::class, function () use ($mock) {
             $handlerStack = HandlerStack::create($mock);
             return new Client(['handler' => $handlerStack]);
         });
@@ -81,7 +70,7 @@ class ExampleClientTest extends TestCase
 
     public function testResponseStatusCodeExceptionGetList()
     {
-        $this->container->set(ClientInterface::class, function () {
+        DIContainer::getContainer()->set(ClientInterface::class, function () {
             $handlerStack = HandlerStack::create(new MockHandler([new Response(403)]));
             return new Client(['handler' => $handlerStack]);
         });
@@ -94,29 +83,25 @@ class ExampleClientTest extends TestCase
     /**
      * @dataProvider createDataProvider
      * @param Response $response
-     * @param string $method
      * @param string $body
      * @param array $data
      * @throws \Exception
      */
-        public function testCreateComment(Response $response, string $method, string $body, array $data)
-        {
-            $container = [];
-            $this->container->set(ClientInterface::class, function () use ($response, &$container){
-                $history = Middleware::history($container);
-                $handlerStack = HandlerStack::create(new MockHandler([$response]));
-                $handlerStack->push($history);
-                return new Client(['handler' => $handlerStack]);
-            });
+    public function testCreateComment(Response $response, string $body, array $data)
+    {
+        $container = [];
+        DIContainer::getContainer()->set(ClientInterface::class, function () use ($response, &$container) {
+            $history = Middleware::history($container);
+            $handlerStack = HandlerStack::create(new MockHandler([$response]));
+            $handlerStack->push($history);
+            return new Client(['handler' => $handlerStack]);
+        });
 
-            $exampleClient = new ExampleClient();
-            $exampleClient->createComment(...$data);
+        $exampleClient = new ExampleClient();
+        $exampleClient->createComment(...$data);
 
-            foreach ($container as $transaction) {
-                $this->assertEquals($method, $transaction['request']->getMethod(), "create method assertion");
-                $this->assertEquals($body, (string)$transaction['request']->getBody(), "create body assertion");
-            }
-        }
+        $this->assertRequest($body, $container);
+    }
 
     public function createDataProvider()
     {
@@ -132,7 +117,7 @@ class ExampleClientTest extends TestCase
 
     public function testResponseStatusCodeExceptionCreate()
     {
-        $this->container->set(ClientInterface::class, function () {
+        DIContainer::getContainer()->set(ClientInterface::class, function () {
             $handlerStack = HandlerStack::create(new MockHandler([new Response(403)]));
             return new Client(['handler' => $handlerStack]);
         });
@@ -145,15 +130,14 @@ class ExampleClientTest extends TestCase
     /**
      * @dataProvider updateDataProvider
      * @param Response $response
-     * @param string $method
      * @param string $body
      * @param array $data
      * @throws \Exception
      */
-    public function testUpdateComment(Response $response, string $method, string $body, array $data)
+    public function testUpdateComment(Response $response,  string $body, array $data)
     {
         $container = [];
-        $this->container->set(ClientInterface::class, function () use ($response, &$container){
+        DIContainer::getContainer()->set(ClientInterface::class, function () use ($response, &$container) {
             $history = Middleware::history($container);
             $handlerStack = HandlerStack::create(new MockHandler([$response]));
             $handlerStack->push($history);
@@ -163,10 +147,7 @@ class ExampleClientTest extends TestCase
         $exampleClient = new ExampleClient();
         $exampleClient->updateComment(...$data);
 
-        foreach ($container as $transaction) {
-            $this->assertEquals($method, $transaction['request']->getMethod(), "create method assertion");
-            $this->assertEquals($body, (string)$transaction['request']->getBody(), "create body assertion");
-        }
+        $this->assertRequest($body, $container);
     }
 
     public function updateDataProvider()
@@ -179,5 +160,12 @@ class ExampleClientTest extends TestCase
                 [1, 'Micha', 'textnew']
             ],
         ];
+    }
+
+    private function assertRequest(string $body, array $container)
+    {
+        foreach ($container as $transaction) {
+            $this->assertEquals($body, (string)$transaction['request']->getBody(), "create body assertion");
+        }
     }
 }
