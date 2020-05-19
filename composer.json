@@ -2,6 +2,7 @@
     "name": "maksmaggot/drom-test-client",
     "description": "drom test client for example.com api",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "maksmaggot",
