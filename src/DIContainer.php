@@ -22,10 +22,6 @@ class DIContainer
     {
     }
 
-    private function __wakeup()
-    {
-    }
-
     public static function getContainer(): DIContainer
     {
         if (self::$instance === null) {
